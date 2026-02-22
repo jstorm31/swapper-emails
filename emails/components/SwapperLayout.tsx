@@ -60,9 +60,7 @@ export const SwapperLayout = ({ previewText, children }: SwapperLayoutProps) => 
                     <Section style={content}>{children}</Section>
 
                     <Section style={footer}>
-                        <Text style={footerText}>
-                            © {new Date().getFullYear()} Swapper.cz. Všechna práva vyhrazena.
-                        </Text>
+                        <Text style={footerText}>Swapper: bezpečné tržiště se vstupenkami</Text>
                     </Section>
                 </Container>
             </Body>
