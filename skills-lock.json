@@ -10,6 +10,11 @@
       "source": "resend/react-email",
       "sourceType": "github",
       "computedHash": "e4334584500b10b86b95d02b1fcfc39e7245b00694672607eba33082fc0265ac"
+    },
+    "ux-writing": {
+      "source": "content-designer/ux-writing-skill",
+      "sourceType": "github",
+      "computedHash": "ec049276b35ab4c80f2b5f07ecd7970d920a00e208124268377d10d4803414f0"
     }
   }
 }
