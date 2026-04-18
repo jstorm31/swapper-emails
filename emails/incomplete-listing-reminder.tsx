@@ -54,7 +54,7 @@ export const IncompleteListingReminderEmail = ({
                     <Text style={signature}>
                         Mějte se!
                         <br />
-                        Jiří, zakladatel
+                        Michal, zakladatel
                     </Text>
 
                     <Text style={ps}>
