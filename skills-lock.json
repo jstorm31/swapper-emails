@@ -11,6 +11,11 @@
       "sourceType": "github",
       "computedHash": "e4334584500b10b86b95d02b1fcfc39e7245b00694672607eba33082fc0265ac"
     },
+    "ux-principles": {
+      "source": "manutej/luxor-claude-marketplace",
+      "sourceType": "github",
+      "computedHash": "de11ad890ffe93db296e13f42afea7ce7f7c18f12871f417b2b9b08f548f27af"
+    },
     "ux-writing": {
       "source": "content-designer/ux-writing-skill",
       "sourceType": "github",
