@@ -1,4 +1,4 @@
-import { Body, Container, Font, Head, Html, Img, Preview, Section, Text } from '@react-email/components';
+import { Body, Container, Font, Head, Html, Img, Preview, Section } from '@react-email/components';
 import * as React from 'react';
 
 interface SwapperLayoutProps {
@@ -49,7 +49,7 @@ export const SwapperLayout = ({ previewText, children }: SwapperLayoutProps) => 
                     {/* Compact Header using Brand Color and Logo */}
                     <Section style={header}>
                         <Img
-                            src={`${baseUrl}/static/swapper-logo-full-white.png`}
+                            src={`https://www.swapper.cz/images/logo-full-white.png`}
                             width="140"
                             height="auto"
                             alt="Swapper"
@@ -58,10 +58,6 @@ export const SwapperLayout = ({ previewText, children }: SwapperLayoutProps) => 
                     </Section>
 
                     <Section style={content}>{children}</Section>
-
-                    <Section style={footer}>
-                        <Text style={footerText}>Swapper: bezpečné tržiště se vstupenkami</Text>
-                    </Section>
                 </Container>
             </Body>
         </Html>
@@ -89,7 +85,7 @@ const container = {
 };
 
 const header = {
-    padding: '8px 24px', // Reduced padding for a more compact design
+    padding: '20px 24px',
     backgroundColor: '#8e84ff', // Brand color
     textAlign: 'center' as const,
 };
@@ -101,16 +97,4 @@ const logoImg = {
 
 const content = {
     padding: '32px 16px',
-};
-
-const footer = {
-    padding: '0 32px 16px',
-    textAlign: 'center' as const,
-};
-
-const footerText = {
-    color: '#8898aa',
-    fontSize: '12px',
-    lineHeight: '16px',
-    margin: '0',
 };
