@@ -123,8 +123,16 @@ export const OrderConfirmationEmail = (props: OrderConfirmationEmailProps) => {
             </Section>
             {`{{else}}`}
             <Section style={guaranteeCardUpsell}>
-                <Text style={guaranteeHeadingUpsell}>Příště se Zárukou?</Text>
+                <Text style={guaranteeHeadingUpsell}>Příště s Garancí?</Text>
                 <Text style={guaranteeBody}>Když lístek nezafunguje, vrátíme ti peníze.</Text>
+                <Text style={guaranteeBody}>
+                    <Link
+                        style={anchor}
+                        href="mailto:info@swapper.cz?subject=Swapper%20garance&body=R%C3%A1d%20bych%20p%C5%99idal%20k%20objedn%C3%A1vce%20garanci%20dodate%C4%8Dn%C4%9B"
+                    >
+                        Získat garanci teď
+                    </Link>
+                </Text>
             </Section>
             {`{{/equals}}`}
 
