@@ -1,0 +1,253 @@
+import { Body, Column, Container, Head, Hr, Html, Preview, Row, Section, Text } from '@react-email/components';
+import { v } from './components/DirectComponents';
+
+// Case 8 — Ops: manual refund request. Internal email to the operator that drives
+// the GP webpay portal refund (refunds are ops-manual in v1, see ADR 0002). This
+// is deliberately a stripped, scannable internal layout — no customer masthead,
+// no marketing footer, no tykání. `reasonCode` ∈ NO_SEND_24H | NO_CONFIRM_14D |
+// DISPUTE_REVERSAL and is mapped to a human label via SendGrid {{#equals}}.
+interface DirectRefundOpsRequestEmailProps {
+    orderId?: string;
+    amount?: string;
+    buyerEmail?: string;
+    paymentExternalId?: string;
+    gateway?: string;
+    reasonCode?: string;
+    eventName?: string;
+}
+
+export const DirectRefundOpsRequestEmail = (props: DirectRefundOpsRequestEmailProps) => {
+    const orderId = v(props.orderId, 'orderId');
+    const amount = v(props.amount, 'amount');
+    const buyerEmail = v(props.buyerEmail, 'buyerEmail');
+    const paymentExternalId = v(props.paymentExternalId, 'paymentExternalId');
+    const gateway = v(props.gateway, 'gateway');
+    const eventName = v(props.eventName, 'eventName');
+
+    const field = (label: string, value: string, mono = false) => (
+        <Row style={fieldRow}>
+            <Column style={fieldLabel}>{label}</Column>
+            <Column style={mono ? fieldValueMono : fieldValue}>{value}</Column>
+        </Row>
+    );
+
+    return (
+        <Html lang="cs">
+            <Head />
+            <Preview>
+                Manuální refundace — objednávka {orderId}, {amount}
+            </Preview>
+            <Body style={main}>
+                <Container style={container}>
+                    <Section style={header}>
+                        <Text style={headerText}>Swapper Direct · OPS</Text>
+                    </Section>
+
+                    <Section style={content}>
+                        <Text style={heading}>Manuální refundace — akce v portálu</Text>
+                        <Text style={lead}>
+                            U objednávky níže je potřeba provést refundaci ručně v portálu brány a poté objednávku
+                            označit jako vyřízenou.
+                        </Text>
+
+                        {/* Human-readable reason (mapped from reasonCode). */}
+                        <Section style={reasonBox}>
+                            <Text style={reasonLabel}>Důvod refundace</Text>
+                            <Text style={reasonValue}>
+                                {`{{#equals reasonCode "NO_SEND_24H"}}`}Prodejce neodeslal vstupenky do 24 h
+                                {`{{else}}`}
+                                {`{{#equals reasonCode "NO_CONFIRM_14D"}}`}Kupující nepotvrdil přijetí do 14 dní
+                                {`{{else}}`}
+                                {`{{#equals reasonCode "DISPUTE_REVERSAL"}}`}Reverzace sporu (dispute)
+                                {`{{else}}`}
+                                {`{{reasonCode}}`}
+                                {`{{/equals}}`}
+                                {`{{/equals}}`}
+                                {`{{/equals}}`}
+                            </Text>
+                            <Text style={reasonCodeMuted}>
+                                Kód: <span style={codeInline}>{`{{reasonCode}}`}</span>
+                            </Text>
+                        </Section>
+
+                        <Hr style={hr} />
+
+                        {field('Objednávka', orderId)}
+                        {field('Událost', eventName)}
+                        {field('Částka k vrácení', amount)}
+                        {field('Kupující', buyerEmail, true)}
+                        {field('ID platby (brána)', paymentExternalId, true)}
+                        {field('Platební brána', gateway)}
+
+                        <Hr style={hr} />
+
+                        <Text style={checklistHeading}>Postup</Text>
+                        <Text style={checklistItem}>1. Otevři transakci {paymentExternalId} v portálu {gateway}.</Text>
+                        <Text style={checklistItem}>2. Vrať částku {amount} kupujícímu.</Text>
+                        <Text style={checklistItem}>
+                            3. Označ objednávku {orderId} ve Swapperu jako refundovanou / vyřízenou.
+                        </Text>
+
+                        <Text style={footnote}>
+                            Automaticky generováno pro Swapper Direct. Neodpovídej na tento e-mail.
+                        </Text>
+                    </Section>
+                </Container>
+            </Body>
+        </Html>
+    );
+};
+
+DirectRefundOpsRequestEmail.PreviewProps = {
+    orderId: '12345',
+    amount: '1 712 Kč',
+    buyerEmail: 'kupujici@email.cz',
+    paymentExternalId: 'gpwp_8f2c1a9e',
+    gateway: 'GP webpay',
+    reasonCode: 'NO_SEND_24H',
+    eventName: 'Lucie ve Foru',
+} satisfies DirectRefundOpsRequestEmailProps;
+
+export default DirectRefundOpsRequestEmail;
+
+// ── styles (internal tool look — not the customer brand) ────────────────────
+const main = {
+    backgroundColor: '#f1f5f9',
+    margin: '0',
+    padding: '24px 12px',
+    fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif',
+};
+
+const container = {
+    backgroundColor: '#ffffff',
+    border: '1px solid #e2e8f0',
+    borderRadius: '8px',
+    margin: '0 auto',
+    maxWidth: '560px',
+    overflow: 'hidden',
+};
+
+const header = {
+    backgroundColor: '#241AA1',
+    padding: '12px 20px',
+};
+
+const headerText = {
+    color: '#ffffff',
+    fontSize: '13px',
+    fontWeight: '700' as const,
+    letterSpacing: '0.5px',
+    margin: '0',
+};
+
+const content = {
+    padding: '24px 20px',
+};
+
+const heading = {
+    color: '#0f172a',
+    fontSize: '20px',
+    fontWeight: '700' as const,
+    lineHeight: '28px',
+    margin: '0 0 8px',
+};
+
+const lead = {
+    color: '#475569',
+    fontSize: '14px',
+    lineHeight: '22px',
+    margin: '0 0 16px',
+};
+
+const reasonBox = {
+    backgroundColor: '#f3f1ff',
+    border: '1px solid #d9d4ff',
+    borderRadius: '6px',
+    padding: '12px 16px',
+    margin: '0 0 4px',
+};
+
+const reasonLabel = {
+    color: '#241AA1',
+    fontSize: '11px',
+    fontWeight: '700' as const,
+    letterSpacing: '0.5px',
+    textTransform: 'uppercase' as const,
+    margin: '0 0 4px',
+};
+
+const reasonValue = {
+    color: '#0f172a',
+    fontSize: '16px',
+    fontWeight: '600' as const,
+    lineHeight: '22px',
+    margin: '0 0 6px',
+};
+
+const reasonCodeMuted = {
+    color: '#64748b',
+    fontSize: '12px',
+    margin: '0',
+};
+
+const codeInline = {
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
+    backgroundColor: '#e2e8f0',
+    borderRadius: '3px',
+    padding: '1px 5px',
+};
+
+const fieldRow = {
+    margin: '0 0 8px',
+};
+
+const fieldLabel = {
+    color: '#64748b',
+    fontSize: '13px',
+    lineHeight: '20px',
+    width: '40%',
+    verticalAlign: 'top' as const,
+};
+
+const fieldValue = {
+    color: '#0f172a',
+    fontSize: '14px',
+    fontWeight: '600' as const,
+    lineHeight: '20px',
+    textAlign: 'right' as const,
+};
+
+const fieldValueMono = {
+    ...fieldValue,
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
+    fontWeight: '500' as const,
+    wordBreak: 'break-all' as const,
+};
+
+const checklistHeading = {
+    color: '#0f172a',
+    fontSize: '13px',
+    fontWeight: '700' as const,
+    letterSpacing: '0.4px',
+    textTransform: 'uppercase' as const,
+    margin: '0 0 8px',
+};
+
+const checklistItem = {
+    color: '#334155',
+    fontSize: '14px',
+    lineHeight: '22px',
+    margin: '0 0 4px',
+};
+
+const footnote = {
+    color: '#94a3b8',
+    fontSize: '12px',
+    lineHeight: '18px',
+    margin: '20px 0 0',
+};
+
+const hr = {
+    borderColor: '#e2e8f0',
+    margin: '16px 0',
+};

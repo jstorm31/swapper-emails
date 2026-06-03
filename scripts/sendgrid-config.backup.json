@@ -1,0 +1,38 @@
+{
+    "templates": [
+        {
+            "id": "d-941aa32605d44e3ea232a0d2213347b3",
+            "file": "order-confirmation.html",
+            "name": "Order Confirmation 2.0",
+            "subject": "Vstupenky jsou tvoje: {{eventName}}",
+            "testData": {
+                "hostname": "https://swapper.cz",
+                "orderId": "12345",
+                "orderDate": "26. 5. 2026",
+                "eventName": "Lucie ve Foru",
+                "orderItems": "<ul style=\"margin:0;padding-left:18px;color:#242140;font-size:15px;line-height:24px;\"><li><b>Lucie ve Foru</b>, pá 5. 6. 2026 20:00<br>3 × 489 Kč</li></ul>",
+                "ticketsSubtotal": "1 467 Kč",
+                "serviceFee": "96 Kč",
+                "guaranteeFee": "149 Kč",
+                "price": "1 712 Kč",
+                "downloadTicketsUrl": "https://swapper.cz/vstupenky/koupene",
+                "guaranteeActive": "true",
+                "guaranteeClaimUrl": "https://swapper.cz/garance-reklamace-formular"
+            }
+        },
+        {
+            "id": "d-48cc1a1e66db46d4aa7b2570a145061a",
+            "file": "incomplete-listing-reminder.html",
+            "name": "Incomplete listing reminder",
+            "subject": "Můžu pomoct s dokončením nabídky?",
+            "testData": {
+                "firstName": "Jano",
+                "listingId": "5567",
+                "eventId": "987",
+                "eventSlug": "lucie-ve-foru",
+                "eventName": "Lucie ve Foru",
+                "unsubscribe_preferences": "https://www.swapper.cz/odhlasit"
+            }
+        }
+    ]
+}

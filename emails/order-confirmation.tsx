@@ -160,7 +160,7 @@ export const OrderConfirmationEmail = (props: OrderConfirmationEmailProps) => {
                 <em>Zjednodušený daňový doklad · Předmět plnění: zprostředkování prodeje vstupenek</em>
             </Text>
             <Text style={legal}>
-                Provozovatel služby: Swapper s.r.o., Podpuklí 2382, Místek, 738 01 Frýdek-Místek · IČO 17945925 ·
+                Provozovatel služby: Swapper s.r.o., Školská 660/3, Nové Město, 110 00 Praha 1 · IČO 17945925 ·
                 neplátce DPH · Spisová značka C 103947, Krajský soud v Ostravě.
             </Text>
             <Text style={legal}>
