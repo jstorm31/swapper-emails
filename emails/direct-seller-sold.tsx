@@ -43,11 +43,37 @@ export const DirectSellerSoldEmail = (props: DirectSellerSoldEmailProps) => {
             <Text style={styles.heading}>Prodáno 🎉 Teď převeď vstupenky</Text>
 
             <Text style={styles.paragraph}>
-                Tvoje vstupenky na <strong>{eventName}</strong> se právě prodaly. U Swapper Direct vstupenky kupujícímu
-                převedeš sám — přes aplikaci LoveID na jeho e-mail.
+                Vstupenky na <strong>{eventName}</strong> se prodaly. Teď je převeď kupujícímu přes aplikaci LoveID.
             </Text>
 
-            {/* Seller money breakdown: sale price − seller fee → net payout. */}
+            {/* Primary action — the critical step. Leads the email and owns the
+                CTA; everything else (payout, guide) is secondary reassurance. */}
+            <Section style={styles.factCard}>
+                <Text style={styles.factCardHeading}>Co teď udělat</Text>
+
+                <Text style={styles.factLabel}>Převeď vstupenky na e-mail kupujícího</Text>
+                <Text style={styles.factValue}>{buyerEmail}</Text>
+
+                <Text style={styles.factLabel}>Stihni to do</Text>
+                <Text style={styles.factValue}>{sendDeadline}</Text>
+
+                <Text style={styles.factLabel}>Počet vstupenek</Text>
+                <Text style={{ ...styles.factValue, margin: '0' }}>{ticketCount}</Text>
+            </Section>
+
+            <Section style={styles.btnContainer}>
+                <Button style={primaryButton} href={actionUrl}>
+                    Označit jako odeslané
+                </Button>
+                <Text style={styles.fallback}>
+                    Nefunguje tlačítko? Otevři{' '}
+                    <Link style={styles.fallbackLink} href={actionUrl}>
+                        {actionUrl}
+                    </Link>
+                </Text>
+            </Section>
+
+            {/* Secondary — payout reassurance, intentionally muted vs. the action. */}
             <Section style={summaryCard}>
                 <Text style={summaryHeading}>Tvoje výplata</Text>
 
@@ -68,48 +94,12 @@ export const DirectSellerSoldEmail = (props: DirectSellerSoldEmailProps) => {
                 </Row>
 
                 <Text style={summaryNote}>
-                    Výplatu pošleme na tvůj účet, jakmile kupující potvrdí přijetí vstupenek.
-                </Text>
-            </Section>
-
-            {/* The two facts that matter: who to send to, and by when. */}
-            <Section style={styles.factCard}>
-                <Text style={styles.factCardHeading}>Co teď udělat</Text>
-
-                <Text style={styles.factLabel}>Převeď vstupenky na e-mail kupujícího</Text>
-                <Text style={styles.factValue}>{buyerEmail}</Text>
-
-                <Text style={styles.factLabel}>Stihni to do</Text>
-                <Text style={styles.factValue}>{sendDeadline}</Text>
-
-                <Text style={styles.factLabel}>Počet vstupenek</Text>
-                <Text style={{ ...styles.factValue, margin: '0' }}>{ticketCount}</Text>
-            </Section>
-
-            <Section style={styles.btnContainer}>
-                <Button style={styles.button} href={actionUrl}>
-                    Označit jako odeslané
-                </Button>
-                <Text style={styles.fallback}>
-                    Nefunguje tlačítko? Otevři{' '}
-                    <Link style={styles.fallbackLink} href={actionUrl}>
-                        {actionUrl}
-                    </Link>
+                    Výplatu pošleme, jakmile kupující potvrdí přijetí vstupenek.
                 </Text>
             </Section>
 
             <Text style={styles.paragraph}>
-                <strong>Jak na to:</strong>
-                <br />
-                1. Otevři aplikaci LoveID a převeď vstupenky na <strong>{buyerEmail}</strong>.
-                <br />
-                2. Vrať se sem a klikni na „Označit jako odeslané".
-                <br />
-                3. Hotovo — počkáš, až kupující potvrdí přijetí.
-            </Text>
-
-            <Text style={styles.paragraph}>
-                Nevíš si rady? Krok za krokem tě tím provede{' '}
+                Nevíš si rady? Provede tě{' '}
                 <Link style={styles.anchor} href={directGuideUrl(eventId)}>
                     návod pro tuhle akci
                 </Link>
@@ -143,6 +133,14 @@ DirectSellerSoldEmail.PreviewProps = {
 } satisfies DirectSellerSoldEmailProps;
 
 export default DirectSellerSoldEmail;
+
+// Enlarged primary CTA — this email has one job (transfer now), so the button is
+// bigger and bolder than the shared default to anchor the eye.
+const primaryButton = {
+    ...styles.button,
+    fontSize: '17px',
+    padding: '16px 46px',
+};
 
 // ── local styles (mirror direct-buyer-purchased's summary block) ────────────
 const summaryCard = {
