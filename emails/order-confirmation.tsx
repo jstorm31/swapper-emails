@@ -93,7 +93,7 @@ export const OrderConfirmationEmail = (props: OrderConfirmationEmailProps) => {
                 </Row>
             </Section>
 
-            {/* 4. Swapper Garance — conditional block (SendGrid #equals for string flags) */}
+            {/* 4. Swapper Garance — conditional block (render only on explicit true/false) */}
             {`{{#equals guaranteeActive "true"}}`}
             <Section style={guaranteeCardActive}>
                 <Text style={guaranteeHeading}>✓ Swapper Garance aktivní</Text>
@@ -121,7 +121,8 @@ export const OrderConfirmationEmail = (props: OrderConfirmationEmailProps) => {
                 </Text>
                 <Text style={guaranteeMuted}>Plné podmínky najdeš v příloze.</Text>
             </Section>
-            {`{{else}}`}
+            {`{{/equals}}`}
+            {`{{#equals guaranteeActive "false"}}`}
             <Section style={guaranteeCardUpsell}>
                 <Text style={guaranteeHeadingUpsell}>Příště s Garancí?</Text>
                 <Text style={guaranteeBody}>Když lístek nezafunguje, vrátíme ti peníze.</Text>
@@ -160,8 +161,8 @@ export const OrderConfirmationEmail = (props: OrderConfirmationEmailProps) => {
                 <em>Zjednodušený daňový doklad · Předmět plnění: zprostředkování prodeje vstupenek</em>
             </Text>
             <Text style={legal}>
-                Provozovatel služby: Swapper s.r.o., Školská 660/3, Nové Město, 110 00 Praha 1 · IČO 17945925 ·
-                neplátce DPH · Spisová značka C 103947, Krajský soud v Ostravě.
+                Provozovatel služby: Swapper s.r.o., Školská 660/3, Nové Město, 110 00 Praha 1 · IČO 17945925 · neplátce
+                DPH · Spisová značka C 103947, Krajský soud v Ostravě.
             </Text>
             <Text style={legal}>
                 <Link style={legalLink} href="https://www.swapper.cz/obchodni-podminky">
