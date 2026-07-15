@@ -109,11 +109,11 @@ export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps)
                 nejpozději do <strong>{sellerSendDeadline}</strong>.
             </Text>
             <Text style={stepText}>
-                <strong style={stepNum}>2.</strong> Přijde ti e-mail s tlačítkem <strong>„Vyzvednout vstupenku"</strong>
+                <strong style={stepNum}>2.</strong> Přijde ti e-mail s tlačítkem <strong>„Vyzvednout vstupenky"</strong>
                 . Klikneš a přesměrujeme tě rovnou do NFCTron.
             </Text>
             <Text style={stepText}>
-                <strong style={stepNum}>3.</strong> Vstupenku si vyzvedneš do svého účtu NFCTron a provedeš{' '}
+                <strong style={stepNum}>3.</strong> Vstupenky si vyzvedneš do svého účtu NFCTron a provedeš{' '}
                 <strong>přejmenování za 150 Kč</strong> — jméno zadej přesně tak, jak je na dokladu, který vezmeš k
                 bráně.
             </Text>
@@ -122,7 +122,7 @@ export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps)
             <Section style={styles.factCard}>
                 <Text style={styles.factCardHeading}>Co budeš k vyzvednutí potřebovat</Text>
                 <Text style={reqItem}>
-                    <strong>Účet v aplikaci NFCTron.</strong> Bez něj vstupenku nevyzvedneš — účet si můžeš založit
+                    <strong>Účet v aplikaci NFCTron.</strong> Bez něj vstupenky nevyzvedneš — účet si můžeš založit
                     zdarma předem.
                 </Text>
                 <Text style={{ ...reqItem, margin: '0' }}>
@@ -142,7 +142,7 @@ export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps)
             <Hr style={softHr} />
 
             <Text style={styles.paragraph}>
-                <strong>A kdyby něco?</strong> Peníze držíme v bezpečí, dokud nepotvrdíš přijetí vstupenky. Kdyby ti ji
+                <strong>A kdyby něco?</strong> Peníze držíme v bezpečí, dokud nepotvrdíš přijetí vstupenek. Kdyby ti je
                 prodejce do {sellerSendDeadline} nepřevedl, ozvi se nám — vyřešíme to a peníze ti vrátíme.
             </Text>
 

@@ -51,7 +51,7 @@ export const DirectSellerSoldEmail = (props: DirectSellerSoldEmailProps) => {
             {`{{#equals provider "nfcTron"}}`}
             <Text style={styles.paragraph}>
                 Vstupenky na <strong>{eventName}</strong> se prodaly. Teď v NFCTron vytvoř odkaz na vstupenku a vlož ho
-                do Swapperu — kupující si podle něj vstupenku převede do svého účtu.
+                do Swapperu — kupující si podle něj vstupenky převede do svého účtu.
             </Text>
 
             {/* Primary action — the critical step. Sits directly under the title +
@@ -158,7 +158,7 @@ export const DirectSellerSoldEmail = (props: DirectSellerSoldEmailProps) => {
             {`{{#equals provider "nfcTron"}}`}
             <Section style={styles.warnCard}>
                 <Text style={styles.warnText}>
-                    Vstupenku doruč do {sendDeadline}. Když to nestíháš, radši nám dej vědět — jinak se ti ozveme sami a
+                    Vstupenky doruč do {sendDeadline}. Když to nestíháš, radši nám dej vědět — jinak se ti ozveme sami a
                     objednávku vyřešíme společně.
                 </Text>
             </Section>

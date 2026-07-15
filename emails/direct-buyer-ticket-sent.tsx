@@ -41,16 +41,16 @@ export const DirectBuyerTicketSentEmail = (props: DirectBuyerTicketSentEmailProp
             <DirectBadge />
 
             {`{{#equals provider "nfcTron"}}`}
-            <Text style={styles.heading}>Vstupenka je připravená – vyzvedni si ji</Text>
+            <Text style={styles.heading}>Vstupenky jsou připravené – vyzvedni si je</Text>
 
             <Text style={styles.paragraph}>
-                Prodejce ti poslal vstupenku na <strong>{eventName}</strong> (objednávka {orderId}). Jedním kliknutím ji
+                Prodejce ti poslal vstupenky na <strong>{eventName}</strong> (objednávka {orderId}). Jedním kliknutím je
                 převedeš do svého účtu NFCTron.
             </Text>
 
             <Section style={styles.btnContainer}>
                 <Button style={styles.button} href={confirmUrl}>
-                    Vyzvednout vstupenku
+                    Vyzvednout vstupenky
                 </Button>
                 <Text style={styles.fallback}>
                     Nefunguje tlačítko? Otevři{' '}
@@ -64,7 +64,7 @@ export const DirectBuyerTicketSentEmail = (props: DirectBuyerTicketSentEmailProp
                 the gate — make it impossible to miss. */}
             <Section style={styles.warnCard}>
                 <Text style={styles.warnText}>
-                    <strong>Po vyzvednutí vstupenky si změň jméno v NFCtron účtu (150 Kč).</strong> Zadej jméno přesně
+                    <strong>Po vyzvednutí vstupenek si změň jméno v NFCtron účtu (150 Kč).</strong> Zadej jméno přesně
                     tak, jak je na dokladu, který vezmeš k bráně. Bez přejmenování tě u vstupu nemusí pustit — nenech to
                     na poslední chvíli.
                 </Text>
