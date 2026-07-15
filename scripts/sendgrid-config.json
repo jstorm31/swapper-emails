@@ -1,33 +1,10 @@
 {
     "templates": [
         {
-            "id": "d-4ff5eea2fa06415fa325004bd3a97be4",
-            "file": "direct-seller-auto-cancelled.html",
-            "name": "direct-seller-auto-cancelled",
-            "subject": "Objednávka {{orderId}} byla zrušena",
-            "testData": {
-                "eventName": "Lucie ve Foru",
-                "orderId": "12345"
-            }
-        },
-        {
-            "id": "d-e010b6df69ce4fac985125e7e174c282",
-            "file": "direct-seller-confirm-escalation.html",
-            "name": "direct-seller-confirm-escalation",
-            "subject": "Potvrď přijetí vstupenek – {{eventName}}",
-            "testData": {
-                "eventName": "Lucie ve Foru",
-                "eventId": "987",
-                "orderId": "12345",
-                "confirmDeadline": "14. 6. 2026",
-                "sawAcceptanceUrl": "https://www.swapper.cz/vstupenky/prodane/12345/potvrzeni"
-            }
-        },
-        {
             "id": "d-91ad71489f2b4743983386c67ec7f4a9",
             "file": "direct-buyer-purchased.html",
             "name": "direct-buyer-purchased",
-            "subject": "Koupil jsi vstupenky na {{eventName}}",
+            "subject": "Nákup vstupenek: {{eventName}}",
             "testData": {
                 "eventName": "Lucie ve Foru",
                 "eventId": "987",
@@ -45,7 +22,7 @@
             "id": "d-931963189aaf4646b961388060b61f3f",
             "file": "direct-buyer-ticket-sent.html",
             "name": "direct-buyer-ticket-sent",
-            "subject": "Vstupenky na {{eventName}} dorazily – potvrď je",
+            "subject": "Vstupenky dorazily, potvrď je: {{eventName}}",
             "testData": {
                 "eventName": "Lucie ve Foru",
                 "eventId": "987",
@@ -69,51 +46,10 @@
             }
         },
         {
-            "id": "d-5391035e1d464d4798bd24142b87add9",
-            "file": "direct-buyer-refunded.html",
-            "name": "direct-buyer-refunded",
-            "subject": "Refundace objednávky {{orderId}}",
-            "testData": {
-                "eventName": "Lucie ve Foru",
-                "orderId": "12345",
-                "amount": "1 712 Kč",
-                "reasonText": "Prodejce ti vstupenky bohužel nestihl poslat včas.",
-                "refundProcessingNote": "Refundaci zpracujeme ručně, na účtu ji obvykle uvidíš do 5–10 pracovních dnů."
-            }
-        },
-        {
-            "id": "d-8e0922453d6541bca02e242877585774",
-            "file": "direct-seller-send-reminder.html",
-            "name": "direct-seller-send-reminder",
-            "subject": "Připomínka: pošli vstupenky na {{eventName}}",
-            "testData": {
-                "eventName": "Lucie ve Foru",
-                "eventId": "987",
-                "buyerEmail": "kupujici@email.cz",
-                "orderId": "12345",
-                "sendDeadline": "dnes do 18:42",
-                "actionUrl": "https://www.swapper.cz/vstupenky/prodane/12345"
-            }
-        },
-        {
-            "id": "d-f9716ca6e20f4a8ebdd42cd9bbb4f9db",
-            "file": "direct-seller-transaction-complete.html",
-            "name": "direct-seller-transaction-complete",
-            "subject": "Kupující potvrdil přijetí 🎉",
-            "testData": {
-                "sellerName": "Petře",
-                "eventName": "Beats for Love",
-                "orderId": "12345",
-                "payoutAmount": "1 616",
-                "currency": "Kč",
-                "payoutTimingNote": "Do 3 pracovních dnů."
-            }
-        },
-        {
             "id": "d-2351af96671242f3bea8e13703c5b839",
             "file": "direct-seller-sold.html",
             "name": "direct-seller-sold",
-            "subject": "Prodal jsi vstupenky na {{eventName}}",
+            "subject": "Prodáno | Doruč vstupenky na {{eventName}}",
             "testData": {
                 "eventName": "Lucie ve Foru",
                 "eventId": "987",

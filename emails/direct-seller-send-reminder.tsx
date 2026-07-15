@@ -7,7 +7,6 @@ import { SwapperLayout } from './components/SwapperLayout';
 // case 1: the full `buyerEmail` is shown because it is where the tickets must go.
 interface DirectSellerSendReminderEmailProps {
     eventName?: string;
-    eventId?: string;
     buyerEmail?: string;
     orderId?: string;
     sendDeadline?: string;
@@ -16,7 +15,6 @@ interface DirectSellerSendReminderEmailProps {
 
 export const DirectSellerSendReminderEmail = (props: DirectSellerSendReminderEmailProps) => {
     const eventName = v(props.eventName, 'eventName');
-    const eventId = v(props.eventId, 'eventId');
     const buyerEmail = v(props.buyerEmail, 'buyerEmail');
     const orderId = v(props.orderId, 'orderId');
     const sendDeadline = v(props.sendDeadline, 'sendDeadline');
@@ -33,16 +31,6 @@ export const DirectSellerSendReminderEmail = (props: DirectSellerSendReminderEma
                 převeď mu je přes aplikaci LoveID, ať je vše v pořádku.
             </Text>
 
-            <Section style={styles.factCard}>
-                <Text style={styles.factCardHeading}>Připomínka</Text>
-
-                <Text style={styles.factLabel}>Převeď vstupenky na e-mail kupujícího</Text>
-                <Text style={styles.factValue}>{buyerEmail}</Text>
-
-                <Text style={styles.factLabel}>Zbývá čas do</Text>
-                <Text style={{ ...styles.factValue, margin: '0' }}>{sendDeadline}</Text>
-            </Section>
-
             <Section style={styles.btnContainer}>
                 <Button style={styles.button} href={actionUrl}>
                     Označit jako odeslané
@@ -55,9 +43,19 @@ export const DirectSellerSendReminderEmail = (props: DirectSellerSendReminderEma
                 </Text>
             </Section>
 
+            <Section style={styles.factCard}>
+                <Text style={styles.factCardHeading}>Připomínka</Text>
+
+                <Text style={styles.factLabel}>Převeď vstupenky na e-mail kupujícího</Text>
+                <Text style={styles.factValue}>{buyerEmail}</Text>
+
+                <Text style={styles.factLabel}>Zbývá čas do</Text>
+                <Text style={{ ...styles.factValue, margin: '0' }}>{sendDeadline}</Text>
+            </Section>
+
             <Text style={styles.paragraph}>
                 Nevíš si rady? Krok za krokem tě tím provede{' '}
-                <Link style={styles.anchor} href={directGuideUrl(eventId)}>
+                <Link style={styles.anchor} href={directGuideUrl('loveid')}>
                     návod pro tuhle akci
                 </Link>
                 .
@@ -77,7 +75,6 @@ export const DirectSellerSendReminderEmail = (props: DirectSellerSendReminderEma
 
 DirectSellerSendReminderEmail.PreviewProps = {
     eventName: 'Lucie ve Foru',
-    eventId: '987',
     buyerEmail: 'kupujici@email.cz',
     orderId: '12345',
     sendDeadline: 'dnes do 18:42',

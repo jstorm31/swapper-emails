@@ -1,11 +1,19 @@
-import { Body, Column, Container, Head, Hr, Html, Preview, Row, Section, Text } from '@react-email/components';
+import { Body, Column, Container, Head, Hr, Html, Link, Preview, Row, Section, Text } from '@react-email/components';
+import * as React from 'react';
 import { v } from './components/DirectComponents';
 
-// Case 8 — Ops: manual refund request. Internal email to the operator that drives
-// the GP webpay portal refund (refunds are ops-manual in v1, see ADR 0002). This
-// is deliberately a stripped, scannable internal layout — no customer masthead,
-// no marketing footer, no tykání. `reasonCode` ∈ NO_SEND_24H | NO_CONFIRM_14D |
-// DISPUTE_REVERSAL and is mapped to a human label via SendGrid {{#equals}}.
+// Case 8 — Ops: manual action request. Internal email to the operator. Two modes,
+// discriminated by `reasonCode`:
+//
+//  · REFUND (LoveID auto-cancel / dispute): NO_SEND_24H | NO_CONFIRM_14D |
+//    DISPUTE_REVERSAL → refund now in the gateway portal (ops-manual, ADR 0002).
+//  · ESCALATION (NFCTron timeouts): ESCALATION_NO_SEND | ESCALATION_NO_CONFIRM →
+//    a deadline lapsed but NFCTron has no auto-cancel/refund — this is "review
+//    this, DON'T refund yet." Ops investigate and decide. See ADR 0003.
+//
+// Same template so there is one ops inbox surface; the intro + steps branch on
+// whether the code is an escalation. Deliberately a stripped, scannable internal
+// layout — no customer masthead, no marketing footer, no tykání.
 interface DirectRefundOpsRequestEmailProps {
     orderId?: string;
     amount?: string;
@@ -31,11 +39,73 @@ export const DirectRefundOpsRequestEmail = (props: DirectRefundOpsRequestEmailPr
         </Row>
     );
 
+    // SendGrid {{#equals}} is exact-match only (no OR), so gate the escalation-vs-
+    // refund copy by nesting both escalation codes around the same node. The
+    // escalation node is authored once and reused in both branches; only the
+    // exported HTML duplicates it. `refundNode` is the {{else}} default, so legacy
+    // refund-only sends (and any unknown code) render the refund flow.
+    const escalationOr = (escalationNode: React.ReactNode, refundNode: React.ReactNode) => (
+        <>
+            {`{{#equals reasonCode "ESCALATION_NO_SEND"}}`}
+            {escalationNode}
+            {`{{else}}`}
+            {`{{#equals reasonCode "ESCALATION_NO_CONFIRM"}}`}
+            {escalationNode}
+            {`{{else}}`}
+            {refundNode}
+            {`{{/equals}}`}
+            {`{{/equals}}`}
+        </>
+    );
+
+    const escalationIntro = (
+        <>
+            <Text style={heading}>Vyžaduje pozornost — zatím nerefunduj</Text>
+            <Text style={lead}>
+                U objednávky níže vypršel časový limit (NFCTron). Nic se nestalo automaticky — <strong>nerefunduj hned</strong>,
+                nejdřív prošetři situaci s prodejcem/kupujícím a rozhodni o dalším postupu.
+            </Text>
+        </>
+    );
+    const refundIntro = (
+        <>
+            <Text style={heading}>Manuální refundace — akce v portálu</Text>
+            <Text style={lead}>
+                U objednávky níže je potřeba provést refundaci ručně v portálu brány a poté objednávku označit jako
+                vyřízenou.
+            </Text>
+        </>
+    );
+
+    const escalationSteps = (
+        <>
+            <Text style={checklistHeading}>Postup</Text>
+            <Text style={checklistItem}>1. Ověř stav u prodejce i kupujícího podle důvodu výše.</Text>
+            <Text style={checklistItem}>
+                2. Rozhodni: doručení dokončit, prodloužit lhůtu, nebo objednávku {orderId} vrátit.
+            </Text>
+            <Text style={checklistItem}>
+                3. Teprve při domluvě na vrácení refunduj {amount} v portálu {gateway} a označ objednávku jako
+                vyřízenou.
+            </Text>
+        </>
+    );
+    const refundSteps = (
+        <>
+            <Text style={checklistHeading}>Postup</Text>
+            <Text style={checklistItem}>1. Otevři transakci {paymentExternalId} v portálu {gateway}.</Text>
+            <Text style={checklistItem}>2. Vrať částku {amount} kupujícímu.</Text>
+            <Text style={checklistItem}>
+                3. Označ objednávku {orderId} ve Swapperu jako refundovanou / vyřízenou.
+            </Text>
+        </>
+    );
+
     return (
         <Html lang="cs">
             <Head />
             <Preview>
-                Manuální refundace — objednávka {orderId}, {amount}
+                Swapper Direct OPS — objednávka {orderId}, {amount}
             </Preview>
             <Body style={main}>
                 <Container style={container}>
@@ -44,15 +114,17 @@ export const DirectRefundOpsRequestEmail = (props: DirectRefundOpsRequestEmailPr
                     </Section>
 
                     <Section style={content}>
-                        <Text style={heading}>Manuální refundace — akce v portálu</Text>
-                        <Text style={lead}>
-                            U objednávky níže je potřeba provést refundaci ručně v portálu brány a poté objednávku
-                            označit jako vyřízenou.
-                        </Text>
+                        {escalationOr(escalationIntro, refundIntro)}
+
+                        <Section style={adminBtnWrap}>
+                            <Link style={adminBtn} href={`https://admin.swapper.cz/order/${orderId}`}>
+                                Otevřít objednávku v adminu →
+                            </Link>
+                        </Section>
 
                         {/* Human-readable reason (mapped from reasonCode). */}
                         <Section style={reasonBox}>
-                            <Text style={reasonLabel}>Důvod refundace</Text>
+                            <Text style={reasonLabel}>Důvod</Text>
                             <Text style={reasonValue}>
                                 {`{{#equals reasonCode "NO_SEND_24H"}}`}Prodejce neodeslal vstupenky do 24 h
                                 {`{{else}}`}
@@ -60,7 +132,13 @@ export const DirectRefundOpsRequestEmail = (props: DirectRefundOpsRequestEmailPr
                                 {`{{else}}`}
                                 {`{{#equals reasonCode "DISPUTE_REVERSAL"}}`}Reverzace sporu (dispute)
                                 {`{{else}}`}
+                                {`{{#equals reasonCode "ESCALATION_NO_SEND"}}`}NFCTron: prodejce nevložil odkaz na vstupenku do 24 h
+                                {`{{else}}`}
+                                {`{{#equals reasonCode "ESCALATION_NO_CONFIRM"}}`}NFCTron: kupující nevyzvedl vstupenku do 14 dní
+                                {`{{else}}`}
                                 {`{{reasonCode}}`}
+                                {`{{/equals}}`}
+                                {`{{/equals}}`}
                                 {`{{/equals}}`}
                                 {`{{/equals}}`}
                                 {`{{/equals}}`}
@@ -74,19 +152,14 @@ export const DirectRefundOpsRequestEmail = (props: DirectRefundOpsRequestEmailPr
 
                         {field('Objednávka', orderId)}
                         {field('Událost', eventName)}
-                        {field('Částka k vrácení', amount)}
+                        {field('Částka', amount)}
                         {field('Kupující', buyerEmail, true)}
                         {field('ID platby (brána)', paymentExternalId, true)}
                         {field('Platební brána', gateway)}
 
                         <Hr style={hr} />
 
-                        <Text style={checklistHeading}>Postup</Text>
-                        <Text style={checklistItem}>1. Otevři transakci {paymentExternalId} v portálu {gateway}.</Text>
-                        <Text style={checklistItem}>2. Vrať částku {amount} kupujícímu.</Text>
-                        <Text style={checklistItem}>
-                            3. Označ objednávku {orderId} ve Swapperu jako refundovanou / vyřízenou.
-                        </Text>
+                        {escalationOr(escalationSteps, refundSteps)}
 
                         <Text style={footnote}>
                             Automaticky generováno pro Swapper Direct. Neodpovídej na tento e-mail.
@@ -104,7 +177,7 @@ DirectRefundOpsRequestEmail.PreviewProps = {
     buyerEmail: 'kupujici@email.cz',
     paymentExternalId: 'gpwp_8f2c1a9e',
     gateway: 'GP webpay',
-    reasonCode: 'NO_SEND_24H',
+    reasonCode: 'ESCALATION_NO_SEND',
     eventName: 'Lucie ve Foru',
 } satisfies DirectRefundOpsRequestEmailProps;
 
@@ -157,6 +230,21 @@ const lead = {
     fontSize: '14px',
     lineHeight: '22px',
     margin: '0 0 16px',
+};
+
+const adminBtnWrap = {
+    margin: '0 0 20px',
+};
+
+const adminBtn = {
+    display: 'inline-block',
+    backgroundColor: '#241AA1',
+    color: '#ffffff',
+    fontSize: '14px',
+    fontWeight: '600' as const,
+    textDecoration: 'none',
+    borderRadius: '6px',
+    padding: '9px 18px',
 };
 
 const reasonBox = {

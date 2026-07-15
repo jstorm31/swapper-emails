@@ -1,5 +1,4 @@
 import { Hr, Link, Section, Text } from '@react-email/components';
-import * as React from 'react';
 
 // Shared building blocks for the Swapper Direct email family.
 //
@@ -10,8 +9,7 @@ import * as React from 'react';
 
 // Placeholders fall through to SendGrid Handlebars at send-time. In the React
 // Email preview the literal {{var}} is rendered so the static layout can be QA'd.
-export const v = (value: string | undefined, name: string) =>
-    value && value.length > 0 ? value : `{{${name}}}`;
+export const v = (value: string | undefined, name: string) => (value && value.length > 0 ? value : `{{${name}}}`);
 
 // Strip whitespace for tel: hrefs.
 export const telHref = (phone: string) => `tel:${phone.replace(/\s+/g, '')}`;
@@ -20,9 +18,11 @@ export const telHref = (phone: string) => `tel:${phone.replace(/\s+/g, '')}`;
 // per-send variable. Import it instead of parametrizing it.
 export const SUPPORT_PHONE = '+420 722 596 478';
 
-// Event-specific Swapper Direct how-to guide (covers transferring/receiving via
-// the organizer account, including when you don't yet have an organizer account).
-export const directGuideUrl = (eventId: string) => `https://www.swapper.cz/swapper-direct/${eventId}`;
+// Provider-specific Swapper Direct how-to guide (covers transferring/receiving via
+// the provider account, including when you don't yet have one). The slug is the
+// lowercase provider: "loveid" | "nfctron".
+export const directGuideUrl = (providerSlug: 'loveid' | 'nfctron') =>
+    `https://www.swapper.cz/swapper-direct/${providerSlug}`;
 
 // ── Direct palette ──────────────────────────────────────────────────────────
 export const directPrimary = '#241AA1';
@@ -64,12 +64,12 @@ export const DirectFooter = ({ showSupportPhone }: { showSupportPhone?: boolean 
             <Hr style={hr} />
 
             <Text style={legal}>
-                Provozovatel služby: Swapper s.r.o., Školská 660/3, Nové Město, 110 00 Praha 1 · IČO 17945925 ·
-                neplátce DPH · Spisová značka C 103947, Krajský soud v Ostravě.
+                Provozovatel služby: Swapper s.r.o., Školská 660/3, Nové Město, 110 00 Praha 1 · IČO 17945925 · neplátce
+                DPH · Spisová značka C 103947, Krajský soud v Ostravě.
             </Text>
             <Text style={legal}>
-                <Link style={legalLink} href="https://www.swapper.cz/obchodni-podminky">
-                    Obchodní podmínky
+                <Link style={legalLink} href="https://www.swapper.cz/obchodni-podminky-swapper-direct">
+                    Obchodní podmínky Swapper Direct
                 </Link>
                 {' · '}
                 <Link style={legalLink} href="https://www.swapper.cz/zpracovani-osobnich-udaju">

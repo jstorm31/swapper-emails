@@ -3,13 +3,20 @@ import { DirectBadge, DirectFooter, directGuideUrl, styles, v } from './componen
 import { SwapperLayout } from './components/SwapperLayout';
 
 // Case 5 — Purchase confirmation (Direct). Buyer paid; this email reassures and
-// explains the Direct flow: the seller transfers the tickets to the buyer via the
-// LoveID app within 24 h. The seller's contact is intentionally NOT shown.
+// explains the Direct flow. The seller's contact is intentionally NOT shown.
 // Doubles as the zjednodušený daňový doklad, so the summary carries the full fee
-// breakdown (tickets subtotal + Swapper fee + total) and the tax footer.
+// breakdown (tickets subtotal + Swapper fee + total).
+//
+// Provider-aware: `provider` arrives as "loveId" | "nfcTron" (DirectProvider
+// rawValue). LoveID = transfer to the buyer's e-mail via the LoveID app. NFCTron =
+// the seller shares a link the buyer uses to transfer the ticket into their own
+// NFCTron account, then does the 150 Kč name change themselves. Branch is a
+// SendGrid `{{#equals provider "nfcTron"}} … {{else}} …LoveID… {{/equals}}` — the
+// LoveID copy is the `{{else}}` default, so a send that omits `provider` (legacy
+// LoveID) still renders correctly.
 interface DirectBuyerPurchasedEmailProps {
+    provider?: string;
     eventName?: string;
-    eventId?: string;
     ticketCount?: string;
     orderId?: string;
     orderDate?: string;
@@ -22,7 +29,6 @@ interface DirectBuyerPurchasedEmailProps {
 
 export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps) => {
     const eventName = v(props.eventName, 'eventName');
-    const eventId = v(props.eventId, 'eventId');
     const ticketCount = v(props.ticketCount, 'ticketCount');
     const orderId = v(props.orderId, 'orderId');
     const orderDate = v(props.orderDate, 'orderDate');
@@ -36,12 +42,32 @@ export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps)
         <SwapperLayout previewText="Máš zaplaceno. Vstupenky ti převede prodejce — tady je, jak to funguje.">
             <DirectBadge />
 
-            <Text style={styles.heading}>Máš zaplaceno ✓</Text>
+            <Text style={styles.heading}>Máš zaplaceno, počkej na převod vstupenek</Text>
 
+            {`{{#equals provider "nfcTron"}}`}
+            <Text style={styles.paragraph}>
+                Děkujeme za nákup vstupenek na <strong>{eventName}</strong>. Koupil jsi přes Swapper Direct — prodejce
+                ti pošle odkaz, kterým vstupenky <strong>převedeš do svého účtu NFCTron</strong>.
+            </Text>
+            {`{{else}}`}
             <Text style={styles.paragraph}>
                 Děkujeme za nákup vstupenek na <strong>{eventName}</strong>. Koupil jsi přes Swapper Direct — vstupenky
                 ti převede prodejce přímo na tvůj e-mail přes aplikaci LoveID.
             </Text>
+            {`{{/equals}}`}
+
+            {/* Primary action — directly under the title + description. */}
+            <Section style={styles.btnContainer}>
+                <Button style={styles.button} href={trackingUrl}>
+                    Sledovat objednávku
+                </Button>
+                <Text style={styles.fallback}>
+                    Nefunguje tlačítko? Otevři{' '}
+                    <Link style={styles.fallbackLink} href={trackingUrl}>
+                        {trackingUrl}
+                    </Link>
+                </Text>
+            </Section>
 
             {/* Order summary block — doubles as zjednodušený daňový doklad body. */}
             <Section style={summaryCard}>
@@ -76,6 +102,52 @@ export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps)
             </Section>
 
             <Text style={stepsHeading}>Jak to bude probíhat</Text>
+
+            {`{{#equals provider "nfcTron"}}`}
+            <Text style={stepText}>
+                <strong style={stepNum}>1.</strong> Prodejce ti přes Swapper pošle <strong>odkaz na vstupenku</strong> —
+                nejpozději do <strong>{sellerSendDeadline}</strong>.
+            </Text>
+            <Text style={stepText}>
+                <strong style={stepNum}>2.</strong> Přijde ti e-mail s tlačítkem <strong>„Vyzvednout vstupenku"</strong>
+                . Klikneš a přesměrujeme tě rovnou do NFCTron.
+            </Text>
+            <Text style={stepText}>
+                <strong style={stepNum}>3.</strong> Vstupenku si vyzvedneš do svého účtu NFCTron a provedeš{' '}
+                <strong>přejmenování za 150 Kč</strong> — jméno zadej přesně tak, jak je na dokladu, který vezmeš k
+                bráně.
+            </Text>
+
+            {/* NFCTron disclosures the buyer must not miss — account, name-change fee, currency. */}
+            <Section style={styles.factCard}>
+                <Text style={styles.factCardHeading}>Co budeš k vyzvednutí potřebovat</Text>
+                <Text style={reqItem}>
+                    <strong>Účet v aplikaci NFCTron.</strong> Bez něj vstupenku nevyzvedneš — účet si můžeš založit
+                    zdarma předem.
+                </Text>
+                <Text style={{ ...reqItem, margin: '0' }}>
+                    <strong>150 Kč na přejmenování.</strong> Platíš přímo v NFCTron při vyzvednutí — bez toho tě u brány
+                    nepustí.
+                </Text>
+            </Section>
+
+            <Text style={styles.paragraph}>
+                Nemáš NFCTron nebo si nevíš rady? Krok za krokem tě provede{' '}
+                <Link style={styles.anchor} href={directGuideUrl('nfctron')}>
+                    návod pro tuhle akci
+                </Link>
+                .
+            </Text>
+
+            <Hr style={softHr} />
+
+            <Text style={styles.paragraph}>
+                <strong>A kdyby něco?</strong> Peníze držíme v bezpečí, dokud nepotvrdíš přijetí vstupenky. Kdyby ti ji
+                prodejce do {sellerSendDeadline} nepřevedl, ozvi se nám — vyřešíme to a peníze ti vrátíme.
+            </Text>
+
+            <Text style={disclaimer}>Swapper je nezávislá platforma a není spojený s pořadatelem.</Text>
+            {`{{else}}`}
             <Text style={stepText}>
                 <strong style={stepNum}>1.</strong> Prodejce ti vstupenky převede přes aplikaci LoveID — nejpozději do{' '}
                 <strong>{sellerSendDeadline}</strong>.
@@ -89,21 +161,9 @@ export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps)
                 samostatný e-mail s jedním tlačítkem.
             </Text>
 
-            <Section style={styles.btnContainer}>
-                <Button style={styles.button} href={trackingUrl}>
-                    Sledovat objednávku
-                </Button>
-                <Text style={styles.fallback}>
-                    Nefunguje tlačítko? Otevři{' '}
-                    <Link style={styles.fallbackLink} href={trackingUrl}>
-                        {trackingUrl}
-                    </Link>
-                </Text>
-            </Section>
-
             <Text style={styles.paragraph}>
                 Nemáš LoveID? Nevadí — jak si appku stáhnout a vstupenky převzít, najdeš v{' '}
-                <Link style={styles.anchor} href={directGuideUrl(eventId)}>
+                <Link style={styles.anchor} href={directGuideUrl('loveid')}>
                     návodu pro tuhle akci
                 </Link>
                 .
@@ -115,6 +175,7 @@ export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps)
                 <strong>A kdyby něco?</strong> Pokud ti prodejce vstupenky do {sellerSendDeadline} nepřevede,
                 automaticky ti vrátíme peníze. Nemusíš nic řešit ani hlídat — postaráme se o to za tebe.
             </Text>
+            {`{{/equals}}`}
 
             <DirectFooter showSupportPhone />
         </SwapperLayout>
@@ -122,8 +183,8 @@ export const DirectBuyerPurchasedEmail = (props: DirectBuyerPurchasedEmailProps)
 };
 
 DirectBuyerPurchasedEmail.PreviewProps = {
+    provider: 'nfcTron',
     eventName: 'Lucie ve Foru',
-    eventId: '987',
     ticketCount: '2',
     orderId: '12345',
     orderDate: '1. 6. 2026',
@@ -220,14 +281,25 @@ const stepNum = {
     color: '#241AA1',
 };
 
+// NFCTron requirement lines inside the disclosures fact card.
+const reqItem = {
+    color: '#242140',
+    fontSize: '15px',
+    lineHeight: '23px',
+    margin: '0 0 10px',
+    textAlign: 'left' as const,
+};
+
 const softHr = {
     borderColor: '#e6ebf1',
     margin: '8px 0 24px',
 };
 
-const taxNote = {
+// Independence disclaimer — required on NFCTron customer emails (ADR/spec §A3).
+const disclaimer = {
     color: '#8898aa',
     fontSize: '12px',
     lineHeight: '18px',
     margin: '0 0 6px',
+    textAlign: 'left' as const,
 };

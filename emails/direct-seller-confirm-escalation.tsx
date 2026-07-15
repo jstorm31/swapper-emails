@@ -8,7 +8,6 @@ import { DirectBadge, DirectFooter, directGuideUrl, styles, v } from './componen
 // `sawAcceptanceUrl` flags it for ops.
 interface DirectSellerConfirmEscalationEmailProps {
     eventName?: string;
-    eventId?: string;
     orderId?: string;
     confirmDeadline?: string;
     sawAcceptanceUrl?: string;
@@ -16,7 +15,6 @@ interface DirectSellerConfirmEscalationEmailProps {
 
 export const DirectSellerConfirmEscalationEmail = (props: DirectSellerConfirmEscalationEmailProps) => {
     const eventName = v(props.eventName, 'eventName');
-    const eventId = v(props.eventId, 'eventId');
     const orderId = v(props.orderId, 'orderId');
     const confirmDeadline = v(props.confirmDeadline, 'confirmDeadline');
     const sawAcceptanceUrl = v(props.sawAcceptanceUrl, 'sawAcceptanceUrl');
@@ -31,12 +29,6 @@ export const DirectSellerConfirmEscalationEmail = (props: DirectSellerConfirmEsc
                 Vstupenky na <strong>{eventName}</strong> (objednávka {orderId}) jsi označil jako odeslané, ale
                 kupující zatím nepotvrdil jejich přijetí.
             </Text>
-
-            <Section style={styles.factCard}>
-                <Text style={styles.factCardHeading}>Poslední termín</Text>
-                <Text style={styles.factLabel}>Kupující má na potvrzení čas do</Text>
-                <Text style={{ ...styles.factValue, margin: '0' }}>{confirmDeadline}</Text>
-            </Section>
 
             <Text style={styles.paragraph}>
                 Pokud v aplikaci LoveID vidíš, že kupující vstupenky <strong>převzal</strong>, dej nám o tom
@@ -55,9 +47,15 @@ export const DirectSellerConfirmEscalationEmail = (props: DirectSellerConfirmEsc
                 </Text>
             </Section>
 
+            <Section style={styles.factCard}>
+                <Text style={styles.factCardHeading}>Poslední termín</Text>
+                <Text style={styles.factLabel}>Kupující má na potvrzení čas do</Text>
+                <Text style={{ ...styles.factValue, margin: '0' }}>{confirmDeadline}</Text>
+            </Section>
+
             <Text style={styles.paragraph}>
                 Nevíš, kde převzetí ověřit? Poradí ti{' '}
-                <Link style={styles.anchor} href={directGuideUrl(eventId)}>
+                <Link style={styles.anchor} href={directGuideUrl('loveid')}>
                     návod pro tuhle akci
                 </Link>
                 .
@@ -77,7 +75,6 @@ export const DirectSellerConfirmEscalationEmail = (props: DirectSellerConfirmEsc
 
 DirectSellerConfirmEscalationEmail.PreviewProps = {
     eventName: 'Lucie ve Foru',
-    eventId: '987',
     orderId: '12345',
     confirmDeadline: '14. 6. 2026',
     sawAcceptanceUrl: 'https://www.swapper.cz/vstupenky/prodane/12345/potvrzeni',
