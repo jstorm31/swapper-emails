@@ -3,12 +3,8 @@ import { SwapperLayout } from './components/SwapperLayout';
 
 export const SurveyBuyersEmail = () => {
     return (
-        <SwapperLayout previewText="Vyhraj 2 lístky na Rock for People 2026 🤘">
-            <Text style={heading}>Vyhraj 2 lístky na Rock for People 2026 🤘</Text>
-
-            <Text style={paragraph}>
-                <strong>Hrajeme o 2 vstupy na celé 4 dny festivalu!</strong>
-            </Text>
+        <SwapperLayout previewText="Vyplň dotazník a vyhraj vstupenku na Swapperu v hodnotě 2 000 Kč">
+            <Text style={heading}>Vyplň dotazník a vyhraj vstupenku na Swapperu v hodnotě 2 000 Kč</Text>
 
             <Text style={paragraph}>
                 Nedávno se ti povedlo pořídit lístek přes Swapper. Jak to šlo? Ohodnoť svůj nákup a automaticky tě
@@ -16,7 +12,7 @@ export const SurveyBuyersEmail = () => {
             </Text>
 
             <Section style={btnContainer}>
-                <Button style={button} href="https://www.swapper.cz/raffle-2026?segment=buyer">
+                <Button style={button} href="https://www.swapper.cz/raffle-2026?segment=buyer&user_id={{user_id}}">
                     Vyplnit a soutěžit (3 minuty)
                 </Button>
             </Section>
@@ -26,6 +22,10 @@ export const SurveyBuyersEmail = () => {
                 Vítěze vylosujeme náhodně a ozveme se mu na tento e-mail.{' '}
                 <Link href="https://www.swapper.cz/raffle-2026-terms" style={footerLink}>
                     Podmínky soutěže
+                </Link>{' '}
+                •{' '}
+                <Link href="{{{unsubscribe}}}" style={footerLink}>
+                    Odhlásit odběr
                 </Link>
             </Text>
         </SwapperLayout>
