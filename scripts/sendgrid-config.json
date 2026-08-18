@@ -64,7 +64,7 @@
             }
         },
         {
-            "id": "",
+            "id": "d-2af28af95d2a4038a8b2957f78eb3b2c",
             "file": "post-order-buyer-purchased.html",
             "name": "post-order-buyer-purchased",
             "subject": "Máš zaplaceno | Vstupenky na {{eventName}} dorazí do 24 hodin",
@@ -81,7 +81,7 @@
             }
         },
         {
-            "id": "",
+            "id": "d-b984cf4348474d55a6f4cc9095893337",
             "file": "post-order-buyer-ticket-ready.html",
             "name": "post-order-buyer-ticket-ready",
             "subject": "Vstupenky na {{eventName}} jsou připravené ke stažení",
@@ -94,7 +94,7 @@
             }
         },
         {
-            "id": "",
+            "id": "d-a61b381aaaac4beca4988edd00c51ffc",
             "file": "post-order-buyer-not-delivered.html",
             "name": "post-order-buyer-not-delivered",
             "subject": "Vstupenky na {{eventName}} nedorazily — vracíme ti peníze",
@@ -107,7 +107,7 @@
             }
         },
         {
-            "id": "",
+            "id": "d-ed11367e30324596a8707ae8f77dc451",
             "file": "post-order-seller-sold.html",
             "name": "post-order-seller-sold",
             "subject": "Prodáno | Vystav a nahraj vstupenky na {{eventName}}",
@@ -123,7 +123,7 @@
             }
         },
         {
-            "id": "",
+            "id": "d-8c7b8ab8d2194573a7364fe9e88cb1cb",
             "file": "post-order-seller-reminder.html",
             "name": "post-order-seller-reminder",
             "subject": "⏰ Připomínka: zbývá ti {{timeRemaining}} na nahrání vstupenek na {{eventName}}",
