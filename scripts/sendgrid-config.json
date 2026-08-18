@@ -62,6 +62,80 @@
                 "sendDeadline": "zítra do 18:42",
                 "actionUrl": "https://www.swapper.cz/vstupenky/prodane/12345"
             }
+        },
+        {
+            "id": "",
+            "file": "post-order-buyer-purchased.html",
+            "name": "post-order-buyer-purchased",
+            "subject": "Máš zaplaceno | Vstupenky na {{eventName}} dorazí do 24 hodin",
+            "testData": {
+                "eventName": "Lucie ve Foru",
+                "ticketCount": "2",
+                "orderId": "12345",
+                "orderDate": "1. 6. 2026",
+                "ticketsSubtotal": "1 616 Kč",
+                "serviceFee": "96 Kč",
+                "amount": "1 712 Kč",
+                "orderUrl": "https://www.swapper.cz/vstupenky/koupene/12345",
+                "deliveryDeadline": "st 3. 6. 2026 v 18:42"
+            }
+        },
+        {
+            "id": "",
+            "file": "post-order-buyer-ticket-ready.html",
+            "name": "post-order-buyer-ticket-ready",
+            "subject": "Vstupenky na {{eventName}} jsou připravené ke stažení",
+            "testData": {
+                "eventName": "Lucie ve Foru",
+                "ticketCount": "2",
+                "orderId": "12345",
+                "downloadTicketsUrl": "https://www.swapper.cz/vstupenky/koupene/12345",
+                "eventDate": "pá 5. 6. 2026 od 20:00"
+            }
+        },
+        {
+            "id": "",
+            "file": "post-order-buyer-not-delivered.html",
+            "name": "post-order-buyer-not-delivered",
+            "subject": "Vstupenky na {{eventName}} nedorazily — vracíme ti peníze",
+            "testData": {
+                "eventName": "Lucie ve Foru",
+                "orderId": "12345",
+                "amount": "1 712 Kč",
+                "deliveryDeadline": "út 2. 6. 2026 v 18:42",
+                "eventUrl": "https://www.swapper.cz/akce/lucie-ve-foru"
+            }
+        },
+        {
+            "id": "",
+            "file": "post-order-seller-sold.html",
+            "name": "post-order-seller-sold",
+            "subject": "Prodáno | Vystav a nahraj vstupenky na {{eventName}}",
+            "testData": {
+                "eventName": "Lucie ve Foru",
+                "ticketCount": "2",
+                "orderId": "12345",
+                "salePrice": "1 616 Kč",
+                "sellerFee": "81 Kč",
+                "payoutAmount": "1 535 Kč",
+                "uploadDeadline": "st 3. 6. 2026 v 18:42",
+                "uploadUrl": "https://www.swapper.cz/vstupenky/prodane/12345/nahrat"
+            }
+        },
+        {
+            "id": "",
+            "file": "post-order-seller-reminder.html",
+            "name": "post-order-seller-reminder",
+            "subject": "⏰ Připomínka: zbývá ti {{timeRemaining}} na nahrání vstupenek na {{eventName}}",
+            "testData": {
+                "eventName": "Lucie ve Foru",
+                "orderId": "12345",
+                "missingTicketCount": "1",
+                "ticketCount": "2",
+                "timeRemaining": "12 hodin",
+                "uploadDeadline": "st 3. 6. 2026 v 18:42",
+                "uploadUrl": "https://www.swapper.cz/vstupenky/prodane/12345/nahrat"
+            }
         }
     ]
 }
