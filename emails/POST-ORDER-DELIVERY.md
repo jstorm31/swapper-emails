@@ -139,10 +139,13 @@ either key required of the Direct callers.
 
 1. **The terms URL** (`/obchodni-podminky-dodani-po-nakupu`) is a placeholder
    until SW-5 publishes the page — align the slug before the first send.
-2. **The order, upload and event URLs** arrive as `orderUrl` / `uploadUrl` /
-   `eventUrl`; the preview data assumes `/vstupenky/koupene/{orderId}`,
-   `/vstupenky/nahrane/{orderId}/nahrat` and `/akce/{slug}`. Confirm against
-   SW-15, SW-16 and SW-17.
+2. **The order, upload and event URLs** arrive as `orderUrl` /
+   `downloadTicketsUrl` / `uploadUrl` / `eventUrl`. The buyer order page is
+   `/objednavka/{orderId}` — it carries both the status (case 1) and the
+   download once the ticket lands (case 2), so both buyer keys point there.
+   `/vstupenky/koupene` is the buyer's whole ticket list and is NOT per-order.
+   The seller uploads at `/vstupenky/nahrane/{orderId}/nahrat`; `eventUrl` is
+   `/akce/{slug}`. Confirm against SW-15, SW-16 and SW-17.
 3. **`eventDate`** (case 2) is a new key the Direct family does not have —
    pre-formatted, e.g. `pá 5. 6. 2026 od 20:00`.
 4. **SMS** — none. The Direct family texts the seller at T+12h; whether the

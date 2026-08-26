@@ -125,7 +125,7 @@ PostOrderBuyerPurchasedEmail.PreviewProps = {
     ticketsSubtotal: '1 616 Kč',
     serviceFee: '96 Kč',
     amount: '1 712 Kč',
-    orderUrl: 'https://www.swapper.cz/vstupenky/koupene/12345',
+    orderUrl: 'https://www.swapper.cz/objednavka/12345',
     deliveryDeadline: 'st 3. 6. 2026 v 18:42',
 } satisfies PostOrderBuyerPurchasedEmailProps;
 

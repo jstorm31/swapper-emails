@@ -72,7 +72,7 @@ PostOrderBuyerTicketReadyEmail.PreviewProps = {
     eventDate: 'pá 5. 6. 2026 od 20:00',
     ticketCount: '2',
     orderId: '12345',
-    downloadTicketsUrl: 'https://www.swapper.cz/vstupenky/koupene/12345',
+    downloadTicketsUrl: 'https://www.swapper.cz/objednavka/12345',
 } satisfies PostOrderBuyerTicketReadyEmailProps;
 
 export default PostOrderBuyerTicketReadyEmail;
