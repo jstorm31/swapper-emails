@@ -88,7 +88,7 @@ PostOrderSellerReminderEmail.PreviewProps = {
     ticketCount: '2',
     timeRemaining: '12 hodin',
     uploadDeadline: 'st 3. 6. 2026 v 18:42',
-    uploadUrl: 'https://www.swapper.cz/vstupenky/nabizene/12345/nahrat',
+    uploadUrl: 'https://www.swapper.cz/vstupenky/nahrane/12345/nahrat',
 } satisfies PostOrderSellerReminderEmailProps;
 
 export default PostOrderSellerReminderEmail;

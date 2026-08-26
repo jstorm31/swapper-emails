@@ -141,7 +141,7 @@ either key required of the Direct callers.
    until SW-5 publishes the page — align the slug before the first send.
 2. **The order, upload and event URLs** arrive as `orderUrl` / `uploadUrl` /
    `eventUrl`; the preview data assumes `/vstupenky/koupene/{orderId}`,
-   `/vstupenky/nabizene/{orderId}/nahrat` and `/akce/{slug}`. Confirm against
+   `/vstupenky/nahrane/{orderId}/nahrat` and `/akce/{slug}`. Confirm against
    SW-15, SW-16 and SW-17.
 3. **`eventDate`** (case 2) is a new key the Direct family does not have —
    pre-formatted, e.g. `pá 5. 6. 2026 od 20:00`.
