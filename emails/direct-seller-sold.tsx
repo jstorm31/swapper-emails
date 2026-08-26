@@ -188,7 +188,7 @@ DirectSellerSoldEmail.PreviewProps = {
     payoutAmount: '1 535 Kč',
     orderId: '12345',
     sendDeadline: 'zítra do 18:42',
-    actionUrl: 'https://www.swapper.cz/vstupenky/prodane/12345',
+    actionUrl: 'https://www.swapper.cz/vstupenky/nabizene/12345',
 } satisfies DirectSellerSoldEmailProps;
 
 export default DirectSellerSoldEmail;

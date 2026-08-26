@@ -58,7 +58,13 @@ five templates wrap in `SwapperLayout`.
 | 5 | `post-order-seller-reminder.tsx` | `postOrderSellerReminder` | S | `eventName, orderId, missingTicketCount, ticketCount, timeRemaining, uploadDeadline, uploadUrl` |
 
 The ops escalation at T+24h reuses the existing `direct-refund-ops-request`
-template unchanged (internal mail, no buyer-facing wording) — nothing new here.
+template — internal mail, no buyer-facing wording, so no new template. It is
+**not unchanged**, though: SW-12 asks the escalation to name the order, the
+seller, the buyer and the amount, so the template gained two optional keys,
+`sellerName` and `sellerEmail`, rendered as their own rows. Only this flow sends
+them; the LoveID and NFCTron callers pass no seller, and the rows are gated on
+`{{#if}}` so they disappear for those sends. Keep them optional — do not make
+either key required of the Direct callers.
 
 ### When each one fires
 
@@ -135,7 +141,7 @@ template unchanged (internal mail, no buyer-facing wording) — nothing new here
    until SW-5 publishes the page — align the slug before the first send.
 2. **The order, upload and event URLs** arrive as `orderUrl` / `uploadUrl` /
    `eventUrl`; the preview data assumes `/vstupenky/koupene/{orderId}`,
-   `/vstupenky/prodane/{orderId}/nahrat` and `/akce/{slug}`. Confirm against
+   `/vstupenky/nabizene/{orderId}/nahrat` and `/akce/{slug}`. Confirm against
    SW-15, SW-16 and SW-17.
 3. **`eventDate`** (case 2) is a new key the Direct family does not have —
    pre-formatted, e.g. `pá 5. 6. 2026 od 20:00`.

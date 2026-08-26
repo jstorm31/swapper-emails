@@ -39,6 +39,8 @@
                 "orderId": "12345",
                 "amount": "1 712 Kč",
                 "buyerEmail": "kupujici@email.cz",
+                "sellerName": "Petr Novák",
+                "sellerEmail": "prodejce@email.cz",
                 "paymentExternalId": "gpwp_8f2c1a9e",
                 "gateway": "GP webpay",
                 "reasonCode": "NO_SEND_24H",
@@ -60,7 +62,7 @@
                 "payoutAmount": "1 535 Kč",
                 "orderId": "12345",
                 "sendDeadline": "zítra do 18:42",
-                "actionUrl": "https://www.swapper.cz/vstupenky/prodane/12345"
+                "actionUrl": "https://www.swapper.cz/vstupenky/nabizene/12345"
             }
         },
         {
@@ -119,7 +121,7 @@
                 "sellerFee": "81 Kč",
                 "payoutAmount": "1 535 Kč",
                 "uploadDeadline": "st 3. 6. 2026 v 18:42",
-                "uploadUrl": "https://www.swapper.cz/vstupenky/prodane/12345/nahrat"
+                "uploadUrl": "https://www.swapper.cz/vstupenky/nabizene/12345/nahrat"
             }
         },
         {
@@ -134,7 +136,7 @@
                 "ticketCount": "2",
                 "timeRemaining": "12 hodin",
                 "uploadDeadline": "st 3. 6. 2026 v 18:42",
-                "uploadUrl": "https://www.swapper.cz/vstupenky/prodane/12345/nahrat"
+                "uploadUrl": "https://www.swapper.cz/vstupenky/nabizene/12345/nahrat"
             }
         }
     ]

@@ -77,7 +77,7 @@ DirectSellerConfirmEscalationEmail.PreviewProps = {
     eventName: 'Lucie ve Foru',
     orderId: '12345',
     confirmDeadline: '14. 6. 2026',
-    sawAcceptanceUrl: 'https://www.swapper.cz/vstupenky/prodane/12345/potvrzeni',
+    sawAcceptanceUrl: 'https://www.swapper.cz/vstupenky/nabizene/12345/potvrzeni',
 } satisfies DirectSellerConfirmEscalationEmailProps;
 
 export default DirectSellerConfirmEscalationEmail;

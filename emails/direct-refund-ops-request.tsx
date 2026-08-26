@@ -14,10 +14,18 @@ import { v } from './components/DirectComponents';
 // Same template so there is one ops inbox surface; the intro + steps branch on
 // whether the code is an escalation. Deliberately a stripped, scannable internal
 // layout — no customer masthead, no marketing footer, no tykání.
+//
+// `sellerName` / `sellerEmail` are OPTIONAL: only the post-order delivery
+// escalation (provider `pdfOnDemand`, SW-12) puts a seller in the payload, so
+// ops can chase the supplier without looking them up in the admin. The LoveID
+// and NFCTron callers send neither key — the rows are gated on presence and
+// simply disappear for them.
 interface DirectRefundOpsRequestEmailProps {
     orderId?: string;
     amount?: string;
     buyerEmail?: string;
+    sellerName?: string;
+    sellerEmail?: string;
     paymentExternalId?: string;
     gateway?: string;
     reasonCode?: string;
@@ -28,6 +36,8 @@ export const DirectRefundOpsRequestEmail = (props: DirectRefundOpsRequestEmailPr
     const orderId = v(props.orderId, 'orderId');
     const amount = v(props.amount, 'amount');
     const buyerEmail = v(props.buyerEmail, 'buyerEmail');
+    const sellerName = v(props.sellerName, 'sellerName');
+    const sellerEmail = v(props.sellerEmail, 'sellerEmail');
     const paymentExternalId = v(props.paymentExternalId, 'paymentExternalId');
     const gateway = v(props.gateway, 'gateway');
     const eventName = v(props.eventName, 'eventName');
@@ -37,6 +47,17 @@ export const DirectRefundOpsRequestEmail = (props: DirectRefundOpsRequestEmailPr
             <Column style={fieldLabel}>{label}</Column>
             <Column style={mono ? fieldValueMono : fieldValue}>{value}</Column>
         </Row>
+    );
+
+    // A field that renders only when the key is in the payload. {{#if}} treats an
+    // absent key as falsy, so a caller that sends no seller drops the row instead
+    // of printing a label above an empty cell.
+    const optionalField = (label: string, key: string, value: string, mono = false) => (
+        <>
+            {`{{#if ${key}}}`}
+            {field(label, value, mono)}
+            {`{{/if}}`}
+        </>
     );
 
     // SendGrid {{#equals}} is exact-match only (no OR), so gate the escalation-vs-
@@ -153,6 +174,8 @@ export const DirectRefundOpsRequestEmail = (props: DirectRefundOpsRequestEmailPr
                         {field('Objednávka', orderId)}
                         {field('Událost', eventName)}
                         {field('Částka', amount)}
+                        {optionalField('Prodejce', 'sellerName', sellerName)}
+                        {optionalField('E-mail prodejce', 'sellerEmail', sellerEmail, true)}
                         {field('Kupující', buyerEmail, true)}
                         {field('ID platby (brána)', paymentExternalId, true)}
                         {field('Platební brána', gateway)}
@@ -175,6 +198,8 @@ DirectRefundOpsRequestEmail.PreviewProps = {
     orderId: '12345',
     amount: '1 712 Kč',
     buyerEmail: 'kupujici@email.cz',
+    sellerName: 'Petr Novák',
+    sellerEmail: 'prodejce@email.cz',
     paymentExternalId: 'gpwp_8f2c1a9e',
     gateway: 'GP webpay',
     reasonCode: 'ESCALATION_NO_SEND',

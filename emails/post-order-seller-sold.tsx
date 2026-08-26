@@ -117,7 +117,7 @@ PostOrderSellerSoldEmail.PreviewProps = {
     sellerFee: '81 Kč',
     payoutAmount: '1 535 Kč',
     uploadDeadline: 'st 3. 6. 2026 v 18:42',
-    uploadUrl: 'https://www.swapper.cz/vstupenky/prodane/12345/nahrat',
+    uploadUrl: 'https://www.swapper.cz/vstupenky/nabizene/12345/nahrat',
 } satisfies PostOrderSellerSoldEmailProps;
 
 export default PostOrderSellerSoldEmail;

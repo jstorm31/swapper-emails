@@ -78,7 +78,7 @@ DirectSellerSendReminderEmail.PreviewProps = {
     buyerEmail: 'kupujici@email.cz',
     orderId: '12345',
     sendDeadline: 'dnes do 18:42',
-    actionUrl: 'https://www.swapper.cz/vstupenky/prodane/12345',
+    actionUrl: 'https://www.swapper.cz/vstupenky/nabizene/12345',
 } satisfies DirectSellerSendReminderEmailProps;
 
 export default DirectSellerSendReminderEmail;
