@@ -64,6 +64,30 @@
             }
         },
         {
+            "id": "d-8e0922453d6541bca02e242877585774",
+            "file": "direct-seller-send-reminder.html",
+            "name": "direct-seller-send-reminder",
+            "subject": "Připomínka: pošli vstupenky na {{eventName}}",
+            "testData": {
+                "eventName": "Lucie ve Foru",
+                "buyerEmail": "kupujici@email.cz",
+                "orderId": "12345",
+                "sendDeadline": "dnes do 18:42",
+                "actionUrl": "https://www.swapper.cz/vstupenky/prodane/12345"
+            }
+        },
+        {
+            "id": "d-e010b6df69ce4fac985125e7e174c282",
+            "file": "direct-seller-confirm-escalation.html",
+            "name": "direct-seller-confirm-escalation",
+            "subject": "Potvrď přijetí vstupenek – {{eventName}}",
+            "testData": {
+                "eventName": "Lucie ve Foru",
+                "orderId": "12345",
+                "confirmDeadline": "14. 6. 2026"
+            }
+        },
+        {
             "id": "d-2af28af95d2a4038a8b2957f78eb3b2c",
             "file": "post-order-buyer-purchased.html",
             "name": "post-order-buyer-purchased",

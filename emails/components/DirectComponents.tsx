@@ -21,8 +21,11 @@ export const SUPPORT_PHONE = '+420 722 596 478';
 // Provider-specific Swapper Direct how-to guide (covers transferring/receiving via
 // the provider account, including when you don't yet have one). The slug is the
 // lowercase provider: "loveid" | "nfctron".
-export const directGuideUrl = (providerSlug: 'loveid' | 'nfctron') =>
-    `https://www.swapper.cz/swapper-direct/${providerSlug}`;
+const DIRECT_GUIDE_URLS = {
+    loveid: 'https://www.swapper.cz/direct/love-id',
+    nfctron: 'https://www.swapper.cz/direct/nfctron',
+} as const;
+export const directGuideUrl = (providerSlug: 'loveid' | 'nfctron') => DIRECT_GUIDE_URLS[providerSlug];
 
 // ── Direct palette ──────────────────────────────────────────────────────────
 export const directPrimary = '#241AA1';

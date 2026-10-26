@@ -34,7 +34,7 @@ so a legacy send that omits `provider` still renders the LoveID copy — backwar
 compatible. Only the *action + copy* branch; states, layout, and the money
 breakdown are provider-agnostic. `eventName` carries the event name. Every customer
 email that touches the transfer links the event-specific how-to guide at
-**`/swapper-direct/{loveid|nfctron}`** (provider-specific, not per-event), which
+**`/direct/love-id`** or **`/direct/nfctron`** (provider-specific, not per-event), which
 also covers "no provider account yet".
 
 All dynamic values arrive **pre-formatted** from the backend (Czech dates, amounts
@@ -66,7 +66,7 @@ Each row needs a new SendGrid template (paste the exported HTML) and a new
 | 1 | `direct-seller-sold.tsx` | `directSellerSold` | S | **`provider`**, `eventName, ticketCount, buyerEmail, salePrice, sellerFee, payoutAmount, orderId, sendDeadline, actionUrl` |
 | 2 | `direct-seller-send-reminder.tsx` | `directSellerSendReminder` | S | `eventName, buyerEmail, orderId, sendDeadline, actionUrl` |
 | 3 | `direct-seller-auto-cancelled.tsx` | `directSellerAutoCancelled` | S | `eventName, orderId` |
-| 4 | `direct-seller-confirm-escalation.tsx` | `directSellerConfirmEscalation` | S | `eventName, orderId, confirmDeadline, sawAcceptanceUrl` |
+| 4 | `direct-seller-confirm-escalation.tsx` | `directSellerConfirmEscalation` | S | `eventName, orderId, confirmDeadline` |
 | 5 | `direct-buyer-purchased.tsx` | `directBuyerPurchased` | B | **`provider`**, `eventName, ticketCount, orderId, orderDate, ticketsSubtotal, serviceFee, amount, trackingUrl, sellerSendDeadline` |
 | 6 | `direct-buyer-ticket-sent.tsx` | `directBuyerTicketSent` | B | **`provider`**, `eventName, orderId, confirmUrl` |
 | 7 | `direct-buyer-refunded.tsx` | `directBuyerRefunded` | B | `eventName, orderId, amount, reasonText, refundProcessingNote` |
@@ -85,7 +85,7 @@ provider-neutral. Omitting `provider` renders the LoveID copy.
   constant in `DirectComponents.tsx` (`+420 722 596 478`), imported where needed.
   `DirectFooter` takes a `showSupportPhone` boolean to toggle the phone line.
 - **`eventId` removed** from cases 1, 2, 4, 5, 6 — the how-to guide is now
-  **provider-specific** (`/swapper-direct/loveid` or `/swapper-direct/nfctron`), so
+  **provider-specific** (`/direct/love-id` or `/direct/nfctron`), so
   the guide link no longer needs an event id. `directGuideUrl` takes the lowercase
   provider slug; each `{{#equals}}` branch passes its own literal (`'nfctron'` /
   `'loveid'`). Old note (kept for history): eventId once built the `/swapper-direct/{eventId}`

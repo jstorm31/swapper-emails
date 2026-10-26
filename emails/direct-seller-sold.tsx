@@ -5,7 +5,7 @@ import { SwapperLayout } from './components/SwapperLayout';
 // Case 1 — Direct sale, transfer now. Order paid on a Direct event → seller
 // enters AWAITING_SEND and has 24 h to deliver the tickets to the buyer.
 // `eventName` is consumed by the SendGrid subject line. The provider-specific guide
-// (covers "no provider account yet") lives at /swapper-direct/{loveid|nfctron}.
+// (covers "no provider account yet") lives at /direct/{love-id|nfctron}.
 //
 // Provider-aware (`provider` = "loveId" | "nfcTron", DirectProvider rawValue):
 //  · LoveID  — transfer to the buyer's e-mail (`buyerEmail`) via the LoveID app.
@@ -83,7 +83,7 @@ export const DirectSellerSoldEmail = (props: DirectSellerSoldEmailProps) => {
 
             <Text style={styles.paragraph}>
                 Nevíš, jak v NFCTron vytvořit odkaz na vstupenku a poslat ho? Krok za krokem tě provede{' '}
-                <Link style={styles.anchor} href="https://www.swapper.cz/swapper-direct-nfctron-how-to-transfer-ticket">
+                <Link style={styles.anchor} href={directGuideUrl('nfctron')}>
                     návod pro tuhle akci
                 </Link>
                 .

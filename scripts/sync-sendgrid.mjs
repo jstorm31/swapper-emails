@@ -2,6 +2,7 @@
 //
 //   npm run sync           (reads .env via the npm script)
 //   npm run sync:dry       (shows the plan without writing)
+//   npm run sync -- --only=a,b   (only the entries whose name is listed)
 //
 // Config lives in scripts/sendgrid-config.json. Each entry has:
 //   - id:       the SendGrid template id (d-xxxx). Leave "" to create a new
@@ -35,6 +36,8 @@ if (!apiKey) {
 client.setApiKey(apiKey);
 
 const dryRun = process.argv.includes('--dry-run');
+const onlyArg = process.argv.find((arg) => arg.startsWith('--only='));
+const only = onlyArg ? new Set(onlyArg.slice('--only='.length).split(',')) : null;
 const outDir = fileURLToPath(new URL('../out/', import.meta.url));
 const configPath = fileURLToPath(new URL('./sendgrid-config.json', import.meta.url));
 
@@ -53,7 +56,12 @@ const request = async (body) => {
 
 const run = async () => {
     const config = JSON.parse(await readFile(configPath, 'utf8'));
-    const { templates } = config;
+    const templates = only ? config.templates.filter((entry) => only.has(entry.name)) : config.templates;
+    if (only && templates.length !== only.size) {
+        const known = new Set(templates.map((entry) => entry.name));
+        console.error(`✗ Unknown template name(s): ${[...only].filter((name) => !known.has(name)).join(', ')}`);
+        process.exit(1);
+    }
 
     // Shared version label for this run, e.g. "export 2026-06-03 14:08".
     const versionName = `export ${new Date().toISOString().slice(0, 16).replace('T', ' ')}`;
