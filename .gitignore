@@ -41,3 +41,6 @@ next-env.d.ts
 
 .react-email
 .env
+
+# campaign send state (contains user emails)
+/scripts/.state/

@@ -26,7 +26,7 @@ import client from '@sendgrid/client';
 import { readFile, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
-const ASSET_BASE_URL = process.env.ASSET_BASE_URL ?? 'https://www.swapper.cz';
+import { rewriteAssets } from './lib/assets.mjs';
 
 const apiKey = process.env.SENDGRID_API_KEY;
 if (!apiKey) {
@@ -40,14 +40,6 @@ const onlyArg = process.argv.find((arg) => arg.startsWith('--only='));
 const only = onlyArg ? new Set(onlyArg.slice('--only='.length).split(',')) : null;
 const outDir = fileURLToPath(new URL('../out/', import.meta.url));
 const configPath = fileURLToPath(new URL('./sendgrid-config.json', import.meta.url));
-
-// Rewrite root-relative asset paths (fonts, images) to absolute domain URLs.
-// The exported HTML serves these from `/static/...` for the local preview server;
-// in a real inbox they must be fully-qualified. Logo URLs are already absolute.
-const rewriteAssets = (html) =>
-    html
-        .replace(/(url\(['"]?)\/(static\/)/g, `$1${ASSET_BASE_URL}/$2`)
-        .replace(/((?:src|href)=['"])\/(static\/)/g, `$1${ASSET_BASE_URL}/$2`);
 
 const request = async (body) => {
     const [, responseBody] = await client.request(body);

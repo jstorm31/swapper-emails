@@ -8,12 +8,14 @@
     "export": "email export && node scripts/fix-handlebars.mjs",
     "sync": "node --env-file-if-exists=.env scripts/sync-sendgrid.mjs",
     "sync:dry": "node --env-file-if-exists=.env scripts/sync-sendgrid.mjs --dry-run",
-    "deploy": "npm run export && npm run sync"
+    "deploy": "npm run export && npm run sync",
+    "campaign": "npm run export && node --env-file-if-exists=.env scripts/send-campaign.mjs"
   },
   "dependencies": {
     "@react-email/components": "1.0.8",
     "@react-email/font": "0.0.10",
     "@sendgrid/client": "^8.1.6",
+    "pg": "^8.23.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
